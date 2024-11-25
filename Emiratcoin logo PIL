@@ -1,0 +1,31 @@
+from PIL import Image, ImageDraw, ImageFont
+
+# Create a blank image with a white background
+width, height = 512, 512
+image = Image.new("RGB", (width, height), "white")
+draw = ImageDraw.Draw(image)
+
+# Draw a golden circle for the coin
+gold_color = (255, 215, 0)  # Gold color
+border_width = 20
+draw.ellipse((border_width, border_width, width-border_width, height-border_width), fill=gold_color, outline="black", width=5)
+
+# Draw the central "E"
+try:
+    font = ImageFont.truetype("arial.ttf", 200)  # Load a font
+except IOError:
+    font = ImageFont.load_default()  # Default font if truetype not available
+
+text = "E"
+text_width, text_height = draw.textsize(text, font=font)
+text_x = (width - text_width) // 2
+text_y = (height - text_height) // 2
+draw.text((text_x, text_y), text, fill="black", font=font)
+
+# Add some patterns around (simple example)
+draw.arc((50, 50, width-50, height-50), start=0, end=360, fill="black", width=3)
+draw.line([(width // 2, border_width), (width // 2, height - border_width)], fill="black", width=2)
+
+# Save the image
+image.save("emiratcoin_logo.png")
+image.show()
